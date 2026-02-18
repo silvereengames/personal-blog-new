@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Blog</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+    <center>
+        <h1 class="header"><span style="color: lime;">Silvereen</span><span style="font-style: italic;">.dev</span></h1>
+        <!-- <div style="width: 1px; height: 1vh"></div> -->
+        <p>Heyo! Welcome to my new blog! I've switched from Fewari to my own custom site. It looks like crap now, but
+            I'll continue to update it on my free time.</p>
+
+        <div style="width: 1px; height: 2vh"></div>
+        <hr class="hr-homepage">
+        <div style="width: 1px; height: 2vh"></div>
+        <% posts.forEach(post=> { %>
+            <a href="/post/<%= post.url %>" class="post-title-preview">
+                <%= post.title %>
+            </a>
+            <% }) %>
+    </center>
+</body>
+
+</html>

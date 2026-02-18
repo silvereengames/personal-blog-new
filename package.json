@@ -1,0 +1,18 @@
+{
+  "name": "pocketbase_0.36.4_windows_amd64",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "pocketbase": "^0.26.8"
+  }
+}
