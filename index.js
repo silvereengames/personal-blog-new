@@ -34,6 +34,10 @@ app.get("/post/:url", async (req, res) => {
       `url = "${req.params.url}" && status = "published"`
     );
 
+    const record = await pb.collection('posts').update(post.id, {
+      views: post.views + 1,
+    });
+
     res.render("post", { post });
   } catch (err) {
     res.status(404).send("Post not found");
