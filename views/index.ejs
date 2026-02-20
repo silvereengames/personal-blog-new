@@ -16,12 +16,25 @@
         <div style="width: 1px; height: 2vh"></div>
         <hr class="hr-homepage">
         <div style="width: 1px; height: 2vh"></div>
-        <% posts.forEach(post=> { %>
-            <a href="/post/<%= post.url %>" class="post-title-preview">
-                <%= post.title %>
-            </a>
+        <div class="post-container">
+            <% posts.forEach(post=> { %>
+                <div class="post-box" onclick="window.open('/post/<%= post.url %>')">
+                    <h2 class="post-title"><%= post.title %></h2>
+                    <hr class="hr-homepage">
+                    <p><%= post.excerpt %></p>
+                </div>
             <% }) %>
+        </div>
     </center>
 </body>
 
 </html>
+
+<!--
+Hello there wonderer!! Seems like you have stumbled upon the source code. While you are here, I'd like to attribute a few tools I used in the creation of this website:
+- Space background generator (https://deep-fold.itch.io/space-background-generator)
+- Glassmorphism CSS (https://css.glass/)
+
+...and too the many other websites I took inspiration from. Any questions? Email me directly at silvereen@silvereen.net
+Special tribute to -Doug
+-->

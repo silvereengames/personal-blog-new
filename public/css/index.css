@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
-    background-color: black;
+    background-image: url(/images/background1.png);
+    background-size: cover;
     color: white;
     font-family: "Roboto", sans-serif;
 }
@@ -24,11 +25,40 @@ body {
 
 .hr-homepage {
     border-radius: 10px;
-    width: 50%;
+    width: 75%;
 }
 
 .post-content {
     width: 75%;
     margin-top: 1vh;
     margin-bottom: 1vh;
+}
+
+.post-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+    justify-content: center;  /* centers grid tracks */
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.post-box {
+    aspect-ratio: 1 / 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.post-box:hover {
+    background-color: rgb(255, 255, 255, 0.1);
 }
