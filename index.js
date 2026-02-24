@@ -4,6 +4,7 @@ const app = express()
 import dotenv from "dotenv";
 const sanitizeHtml = require("sanitize-html");
 dotenv.config();
+const rateLimit = require('express-rate-limit');
 
 const port = process.env.PORT || 3000;
 
@@ -14,6 +15,14 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.use(express.static('public'))
+
+const likeLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour in milliseconds
+  max: 3, // Limit each IP to 3 requests per windowMs
+  message: { error: "You're doing that too much. Please try again in an hour." },
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 
 function createExcerpt(html, length = 120) {
   const clean = sanitizeHtml(html, {
@@ -77,6 +86,47 @@ app.post('/login', async (req, res) => {
 
   } catch (err) {
     res.status(401).json({ error: 'Invalid credentials' });
+  }
+});
+
+// --- Like a post (with rate limiting) ---
+app.post("/api/posts/:url/like", likeLimiter, async (req, res) => {
+  try {
+    const post = await pb.collection("posts").getFirstListItem(
+      `url = "${req.params.url}"`
+    );
+
+    const currentLikes = post.likes || 0;
+
+    await pb.collection('posts').update(post.id, {
+      likes: currentLikes + 1,
+    });
+
+    res.json({ success: true, likes: currentLikes + 1 });
+  } catch (err) {
+    console.error("Error liking post:", err);
+    res.status(500).json({ error: "Could not like post" });
+  }
+});
+
+// --- Unlike a post (with rate limiting) ---
+app.post("/api/posts/:url/unlike", likeLimiter, async (req, res) => {
+  try {
+    const post = await pb.collection("posts").getFirstListItem(
+      `url = "${req.params.url}"`
+    );
+
+    const currentLikes = post.likes || 0;
+    const newLikes = Math.max(0, currentLikes - 1);
+
+    await pb.collection('posts').update(post.id, {
+      likes: newLikes,
+    });
+
+    res.json({ success: true, likes: newLikes });
+  } catch (err) {
+    console.error("Error unliking post:", err);
+    res.status(500).json({ error: "Could not unlike post" });
   }
 });
 

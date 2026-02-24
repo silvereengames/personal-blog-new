@@ -1,38 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <%= post.title %>
+        <%= post.title %> | Silvereen.dev
     </title>
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,800;1,400&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <center>
+    <div class="bg-glow"></div>
 
-        <h1 class="header">
-            <%= post.title %>
-        </h1>
-        <hr class="hr-homepage">
-        <div class="post-content">
+    <div class="page-container article-container">
+
+        <nav class="post-nav">
+            <a href="/" class="back-link">&larr; Back to Home</a>
+        </nav>
+
+        <header class="post-header">
+            <% if (post.cover) { %>
+                <img class="post-hero-image" src="<%= post.cover %>" alt="Cover image for <%= post.title %>">
+                <% } %>
+
+                    <h1 class="post-title-main">
+                        <%= post.title %>
+                    </h1>
+
+                    <div class="post-meta">
+                        <span id="formatted-date" data-date="<%= post.created %>"></span>
+                        <span class="meta-divider">•</span>
+                        <span><%- post.views %> Views</span>
+                        <span class="meta-divider">•</span>
+                        <span><%- post.likes %> Likes</span>
+                    </div>
+        </header>
+
+        <article class="post-content">
             <%- post.content %>
+        </article>
+
+        <div class="post-actions">
+            <button id="like-button" class="like-btn" data-slug="<%= post.url %>">
+                <svg viewBox="0 0 24 24" class="heart-icon" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                    </path>
+                </svg>
+                <span id="like-text">Like this post</span>
+            </button>
         </div>
 
-        <hr class="hr-homepage">
+    </div>
 
-        <p>
-            <script>
-                const date = new Date("<%= post.created %>");
-                document.write(
-                    date.toLocaleString(undefined, {
-                        dateStyle: "medium",
-                        timeStyle: "short"
-                    })
-                );
-            </script> - <%- post.views %> Views
-        </p>
-    </center>
+    <script>
+        // --- Date Formatting ---
+        const dateElement = document.getElementById('formatted-date');
+        const rawDate = dateElement.getAttribute('data-date');
+        const dateObj = new Date(rawDate);
+        dateElement.innerText = dateObj.toLocaleString(undefined, {
+            dateStyle: "medium",
+            timeStyle: "short"
+        });
+
+        // --- Like Button Logic ---
+        const likeBtn = document.getElementById('like-button');
+        const likeText = document.getElementById('like-text');
+        // Use the post URL as a unique ID for local storage
+        const postSlug = likeBtn.getAttribute('data-slug');
+        const storageKey = `liked_${postSlug}`;
+
+        // Check initial state on load
+        let isLiked = localStorage.getItem(storageKey) === 'true';
+        if (isLiked) {
+            likeBtn.classList.add('liked');
+            likeText.innerText = 'Liked!';
+        }
+
+        likeBtn.addEventListener('click', async () => {
+            isLiked = !isLiked; // Toggle state
+
+            if (isLiked) {
+                // Optimistic UI update
+                likeBtn.classList.add('liked');
+                likeText.innerText = 'Liked!';
+                localStorage.setItem(storageKey, 'true');
+
+                try {
+                    await fetch(`/api/posts/${postSlug}/like`, { method: 'POST' });
+                    console.log(`Successfully liked post: ${postSlug} on server.`);
+                } catch (err) {
+                    console.error("Failed to sync like with server", err);
+                }
+            } else {
+                // Optimistic UI update
+                likeBtn.classList.remove('liked');
+                likeText.innerText = 'Like this post';
+                localStorage.removeItem(storageKey);
+
+                try {
+                    await fetch(`/api/posts/${postSlug}/unlike`, { method: 'POST' });
+                    console.log(`Successfully unliked post: ${postSlug} on server.`);
+                } catch (err) {
+                    console.error("Failed to sync unlike with server", err);
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1,31 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>My Blog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silvereen.dev | Blog</title>
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,800;1,400&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <center>
-        <h1 class="header"><span style="color: lime;">Silvereen</span><span style="font-style: italic;">.dev</span></h1>
-        <!-- <div style="width: 1px; height: 1vh"></div> -->
-        <p>Heyo! Welcome to my new blog! I've switched from Fewari to my own custom site. It looks like crap now, but
-            I'll continue to update it on my free time.</p>
+    <div class="bg-glow"></div>
 
-        <div style="width: 1px; height: 2vh"></div>
-        <hr class="hr-homepage">
-        <div style="width: 1px; height: 2vh"></div>
-        <div class="post-container">
-            <% posts.forEach(post=> { %>
-                <div class="post-box" onclick="window.open('/post/<%= post.url %>')">
-                    <h2 class="post-title"><%= post.title %></h2>
-                    <hr class="hr-homepage">
-                    <p><%= post.excerpt %></p>
-                </div>
-            <% }) %>
-        </div>
-    </center>
+    <div class="page-container">
+        <header class="hero">
+            <h1 class="logo"><span class="highlight">Silvereen</span><span class="domain">.dev</span></h1>
+            <p class="subtitle">Heyo! Welcome to my new blog! I've switched from Fewari to my own custom site. It's a
+                work in progress, but I'll continue to update it in my free time.</p>
+        </header>
+
+        <main>
+            <div class="post-grid">
+                <% posts.forEach((post, index)=> { %>
+                    <article class="post-card" style="animation-delay: <%= 0.3 + (index * 0.1) %>s"
+                        onclick="window.location.href='/post/<%= post.url %>'">
+
+                        <% if (post.cover) { %>
+                            <img class="post-cover" src="<%= post.cover %>" alt="Cover image for <%= post.title %>">
+                            <% } %>
+
+                                <div class="card-body">
+                                    <div class="card-content">
+                                        <h2 class="post-title">
+                                            <%= post.title %>
+                                        </h2>
+                                        <p class="post-excerpt">
+                                            <%= post.excerpt %>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <span class="read-more">Read Post &rarr;</span>
+                                    </div>
+                                </div>
+                    </article>
+                    <% }) %>
+            </div>
+        </main>
+    </div>
 </body>
 
 </html>
