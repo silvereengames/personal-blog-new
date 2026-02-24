@@ -51,10 +51,12 @@ body {
 }
 
 .logo {
-    font-size: 4rem;
+    /* clamp(minimum_size, preferred_fluid_size, maximum_size) */
+    font-size: clamp(2.25rem, 8vw, 4rem);
     font-weight: 800;
     letter-spacing: -0.05em;
     margin: 0 0 1rem 0;
+    overflow-wrap: break-word; 
 }
 
 .highlight {
