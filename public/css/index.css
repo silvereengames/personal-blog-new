@@ -363,3 +363,61 @@ body {
     stroke: var(--liked-color);
     transform: scale(1.1);
 }
+
+/* --- Footer Styles --- */
+.site-footer {
+    border-top: 1px solid var(--border-color);
+    margin-top: 6rem;
+    padding: 3rem 1rem;
+    background-color: var(--bg-color); /* Keeps it blending with the body */
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.social-links {
+    display: flex;
+    flex-wrap: wrap; /* Allows them to wrap neatly on tiny mobile screens */
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-link svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+}
+
+/* Hover Effects */
+.social-link:hover {
+    color: #ffffff; /* Bright white on hover */
+    transform: translateY(-2px); /* Slight bounce */
+    border-bottom: none; /* Prevents the post-content border-bottom logic from overriding here */
+}
+
+.social-link:hover svg {
+    transform: scale(1.1); /* Icon pops slightly */
+}
+
+.copyright {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
