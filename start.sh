@@ -1,4 +1,5 @@
 #!/bin/bash
+curl -fsSL https://bun.sh/install | bash
 git pull
-npm i
-node index.js
+bun install
+bun index.js
