@@ -130,6 +130,49 @@ app.post("/api/posts/:url/unlike", likeLimiter, async (req, res) => {
   }
 });
 
+// --- Dynamic Sitemap Route ---
+app.get("/sitemap.xml", async (req, res) => {
+  try {
+    // 1. Fetch all published posts
+    const posts = await pb.collection("posts").getFullList({
+      filter: 'status = "published"',
+      sort: "-updated", // Sort by when they were last modified
+    });
+
+    const baseUrl = "https://silvereen.dev";
+
+    // 2. Build the XML string
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>`;
+
+    // 3. Loop through posts and add them to the XML
+    posts.forEach((post) => {
+      xml += `
+  <url>
+    <loc>${baseUrl}/post/${post.url}</loc>
+    <lastmod>${new Date(post.updated).toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+    });
+
+    xml += `\n</urlset>`;
+
+    // 4. Set the correct header and send the response
+    res.header("Content-Type", "application/xml");
+    res.send(xml);
+
+  } catch (err) {
+    console.error("Error generating sitemap:", err);
+    res.status(500).send("Error generating sitemap");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
