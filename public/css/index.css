@@ -6,8 +6,10 @@
     --text-muted: #888888;
     --border-color: #222222;
     --border-hover: #444444;
-    --accent-color: #39ff14; /* Neon lime */
-    --liked-color: #ff4d4d; /* Bright red for liked state */
+    --accent-color: #39ff14;
+    /* Neon lime */
+    --liked-color: #ff4d4d;
+    /* Bright red for liked state */
 }
 
 body {
@@ -20,20 +22,21 @@ body {
     -webkit-font-smoothing: antialiased;
     position: relative;
     z-index: 0;
-    overflow-x: hidden; /* <-- Add this to catch any rogue horizontal elements */
+    overflow-x: hidden;
+    /* <-- Add this to catch any rogue horizontal elements */
 }
 
 /* The Green Radial Half Gradient */
 .bg-glow {
     position: absolute;
     top: 0;
-    left: 0; 
-    width: 100%; 
+    left: 0;
+    width: 100%;
     height: 60vh;
     /* This replaces the hardcoded rgba value */
     background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent-color) 15%, transparent) 0%, transparent 60%);
     pointer-events: none;
-    z-index: -1; 
+    z-index: -1;
 }
 
 .page-container {
@@ -56,7 +59,7 @@ body {
     font-weight: 800;
     letter-spacing: -0.05em;
     margin: 0 0 1rem 0;
-    overflow-wrap: break-word; 
+    overflow-wrap: break-word;
 }
 
 .highlight {
@@ -96,7 +99,7 @@ body {
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     min-height: 200px;
     overflow: hidden;
-    opacity: 0; 
+    opacity: 0;
     animation: fadeInUp 0.6s ease-out forwards;
 }
 
@@ -109,7 +112,8 @@ body {
 /* Cover Image */
 .post-cover {
     width: 100%;
-    height: 180px; /* You can adjust this height */
+    height: 180px;
+    /* You can adjust this height */
     object-fit: cover;
     border-bottom: 1px solid var(--border-color);
     display: block;
@@ -167,6 +171,7 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -178,9 +183,9 @@ body {
 /* --- Single Post Page Styles --- */
 
 .article-container {
-    max-width: 768px; 
+    max-width: 768px;
     margin: 0 auto;
-    padding-top: 2rem; 
+    padding-top: 2rem;
 }
 
 .post-nav {
@@ -243,9 +248,9 @@ body {
     color: var(--text-main);
 }
 
-.post-content h1, 
-.post-content h2, 
-.post-content h3, 
+.post-content h1,
+.post-content h2,
+.post-content h3,
 .post-content h4 {
     color: #ffffff;
     font-weight: 600;
@@ -254,8 +259,15 @@ body {
     line-height: 1.3;
 }
 
-.post-content h2 { font-size: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
-.post-content h3 { font-size: 1.5rem; }
+.post-content h2 {
+    font-size: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.post-content h3 {
+    font-size: 1.5rem;
+}
 
 .post-content p {
     margin-bottom: 1.5rem;
@@ -348,7 +360,8 @@ body {
 .heart-icon {
     width: 20px;
     height: 20px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Bouncy transition */
 }
 
 /* Liked State */
@@ -369,7 +382,8 @@ body {
     border-top: 1px solid var(--border-color);
     margin-top: 6rem;
     padding: 3rem 1rem;
-    background-color: var(--bg-color); /* Keeps it blending with the body */
+    background-color: var(--bg-color);
+    /* Keeps it blending with the body */
 }
 
 .footer-content {
@@ -383,7 +397,8 @@ body {
 
 .social-links {
     display: flex;
-    flex-wrap: wrap; /* Allows them to wrap neatly on tiny mobile screens */
+    flex-wrap: wrap;
+    /* Allows them to wrap neatly on tiny mobile screens */
     justify-content: center;
     gap: 1.5rem;
 }
@@ -407,17 +422,40 @@ body {
 
 /* Hover Effects */
 .social-link:hover {
-    color: #ffffff; /* Bright white on hover */
-    transform: translateY(-2px); /* Slight bounce */
-    border-bottom: none; /* Prevents the post-content border-bottom logic from overriding here */
+    color: #ffffff;
+    /* Bright white on hover */
+    transform: translateY(-2px);
+    /* Slight bounce */
+    border-bottom: none;
+    /* Prevents the post-content border-bottom logic from overriding here */
 }
 
 .social-link:hover svg {
-    transform: scale(1.1); /* Icon pops slightly */
+    transform: scale(1.1);
+    /* Icon pops slightly */
 }
 
 .copyright {
     color: var(--text-muted);
     font-size: 0.85rem;
     letter-spacing: 0.02em;
+}
+
+/* --- Badges & Tags --- */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.featured-badge {
+    /* Uses your global accent color (or post-specific color) with 15% opacity for the background */
+    background-color: color-mix(in srgb, var(--accent-color) 15%, transparent);
+    color: var(--accent-color);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
 }

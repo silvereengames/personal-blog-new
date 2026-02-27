@@ -37,12 +37,17 @@
 
                                 <div class="card-body">
                                     <div class="card-content">
-                                        <h2 class="post-title">
-                                            <%= post.title %>
-                                        </h2>
-                                        <p class="post-excerpt">
-                                            <%= post.excerpt %>
-                                        </p>
+
+                                        <% if (post.featured) { %>
+                                            <span class="badge featured-badge">Featured</span>
+                                            <% } %>
+
+                                                <h2 class="post-title">
+                                                    <%= post.title %>
+                                                </h2>
+                                                <p class="post-excerpt">
+                                                    <%= post.excerpt %>
+                                                </p>
                                     </div>
                                     <div class="card-footer">
                                         <span class="read-more">Read Post &rarr;</span>
