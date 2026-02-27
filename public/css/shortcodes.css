@@ -1,0 +1,138 @@
+/* --- Custom Callout Blocks --- */
+.callout {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+.callout-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 0.1rem;
+}
+
+.callout-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.callout-text {
+    color: var(--text-main);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Warning Theme (Amber/Yellow) */
+.callout-warning {
+    border-color: rgba(255, 170, 0, 0.4);
+    background-color: rgba(255, 170, 0, 0.05);
+}
+.callout-warning .callout-icon {
+    color: #ffaa00;
+}
+
+/* Info Theme (Blue) */
+.callout-info {
+    border-color: rgba(56, 189, 248, 0.4);
+    background-color: rgba(56, 189, 248, 0.05);
+}
+
+.callout-error {
+    border-color: rgba(248, 56, 56, 0.4);
+    background-color: rgba(248, 56, 56, 0.05);
+}
+
+.callout-info .callout-icon {
+    color: #38bdf8;
+}
+
+/* --- Terminal Shortcode Block --- */
+.terminal-block {
+    background-color: #000000;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin: 2rem 0;
+    overflow: hidden;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #0f0f0f;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    position: relative; /* For centering the title */
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.term-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+/* Mac Window Colors */
+.term-dot.close { background-color: #ff5f56; }
+.term-dot.minimize { background-color: #ffbd2e; }
+.term-dot.maximize { background-color: #27c93f; }
+
+.terminal-title {
+    color: #666666;
+    font-size: 0.85rem;
+    font-family: monospace;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.terminal-copy {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    padding: 0;
+}
+
+.terminal-copy:hover {
+    color: #ffffff;
+}
+
+.terminal-body {
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+
+/* Override your default pre/code styles specifically for the terminal */
+.terminal-body pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.terminal-body code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: var(--accent-color); /* Uses your dynamic post color or default lime */
+    font-size: 0.95rem;
+    white-space: pre;
+    background: transparent;
+    padding: 0;
+}

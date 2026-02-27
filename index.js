@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 const sanitizeHtml = require("sanitize-html");
 dotenv.config();
 const rateLimit = require('express-rate-limit');
+const { parsePostContent } = require('./utils/shortcodes');
 
 const port = process.env.PORT || 3000;
 
@@ -61,6 +62,8 @@ app.get("/post/:url", async (req, res) => {
     const post = await pb.collection("posts").getFirstListItem(
       `url = "${req.params.url}" && (status = "published" || status = "unlisted")`
     );
+
+    post.content = parsePostContent(post.content);
 
     const record = await pb.collection('posts').update(post.id, {
       views: post.views + 1,
