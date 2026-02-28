@@ -68,9 +68,9 @@ const shortcodeRegistry = {
     'server': (ip) => `
         <div style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 1rem 1.5rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin: 1.5rem 0;">
             <div style="display: flex; align-items: center; gap: 1rem;">
-                <i class="bi bi-hdd-network" style="color: var(--accent-color); font-size: 1.5rem;"></i>
+                <i class="bi bi-exclamation-circle" style="color: var(--accent-color); font-size: 1.5rem;"></i>
                 <div>
-                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Server IP</div>
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Address</div>
                     <div style="font-family: monospace; font-size: 1.1rem; color: #fff;">${ip.trim()}</div>
                 </div>
             </div>

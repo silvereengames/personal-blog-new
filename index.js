@@ -176,6 +176,39 @@ app.get("/sitemap.xml", async (req, res) => {
   }
 });
 
+// --- Background Post Scheduler ---
+// Runs automatically every 60,000 milliseconds (1 minute)
+setInterval(async () => {
+  try {
+    // Get current UTC time in PocketBase's preferred format: "YYYY-MM-DD HH:mm:ss.SSSZ"
+    const now = new Date().toISOString().replace('T', ' ');
+
+    // 1. Fetch posts where status is "scheduled" AND the schedule time is right now or in the past
+    const readyPosts = await pb.collection("posts").getFullList({
+      filter: `status = "scheduled" && schedule <= "${now}"`,
+    });
+
+    if (readyPosts.length > 0) {
+      console.log(`⏰ Found ${readyPosts.length} scheduled post(s) ready to publish.`);
+    }
+
+    // 2. Loop through and update their status
+    for (const post of readyPosts) {
+      await pb.collection("posts").update(post.id, {
+        status: "published",
+        // Optional: Update the 'created' date to 'now' so it jumps to the top of your feed
+        // created: now 
+      });
+
+      console.log(`✅ Automatically published: ${post.title}`);
+    }
+
+  } catch (err) {
+    // Keeps your server from crashing if PocketBase blips
+    console.error("Error running background schedule checker:", err.message);
+  }
+}, 60 * 1000);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

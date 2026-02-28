@@ -20,3 +20,12 @@ The blog also comes with a few shortcodes you can use to render info cards, audi
 - `[server]` - returns an in-line block for a server IP address or web domain to copy paste easily
 - `[youtube]` - put a youtube ID (eg `dQw4w9WgXcQ`) in between the tags to render a youtube embed
 - `[audio]` - put a link to a mp3 or wav or any other format the browser can play to render a nice audio player
+
+## Running
+Make sure you set your ENV VARs in .env:
+```
+PB_URL=http://127.0.0.1:8090 //just the base url. if running local use this
+PB_USER=
+PB_PASS=
+```
+In your pocketbase instance you have to create a new user with admin perms and a password, thattl be used for API access. Again I'll provide a sample DB backup soon. You can use the PB docker container or binaries (reccomended)
