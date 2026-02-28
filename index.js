@@ -65,13 +65,16 @@ app.get("/post/:url", async (req, res) => {
 
     post.content = parsePostContent(post.content);
 
+    post.excerpt = createExcerpt(post.content, 120);
+
     const record = await pb.collection('posts').update(post.id, {
       views: post.views + 1,
     });
 
     res.render("post", { post });
   } catch (err) {
-    res.status(404).send("Post not found");
+    //res.status(404).send("Post not found");
+    res.redirect("/");
   }
 });
 
@@ -208,6 +211,10 @@ setInterval(async () => {
     console.error("Error running background schedule checker:", err.message);
   }
 }, 60 * 1000);
+
+app.use((req, res) => {
+    res.redirect("/");
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
