@@ -136,3 +136,133 @@
     background: transparent;
     padding: 0;
 }
+
+/* Ref shortcode */
+/* --- Reference / Source Block --- */
+.reference-block {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.reference-block:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    background-color: color-mix(in srgb, var(--accent-color) 5%, var(--card-bg));
+}
+
+.ref-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+    border-radius: 8px;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.ref-content {
+    flex-grow: 1;
+    overflow: hidden; /* Prevents long URLs from breaking the box */
+}
+
+.ref-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ref-url {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ref-arrow {
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.reference-block:hover .ref-arrow {
+    color: var(--accent-color);
+}
+
+/* --- Dropdown / Accordion Block --- */
+.custom-dropdown {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    transition: border-color 0.2s ease;
+}
+
+.custom-dropdown:hover {
+    border-color: color-mix(in srgb, var(--accent-color) 40%, var(--border-color));
+}
+
+.dropdown-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #ffffff;
+    list-style: none; /* Hides default HTML triangle */
+    user-select: none;
+}
+
+/* Hides default Safari triangle */
+.dropdown-summary::-webkit-details-marker {
+    display: none; 
+}
+
+.dropdown-icon {
+    color: var(--text-muted);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* When the details tag is open, rotate the chevron and light it up */
+.custom-dropdown[open] .dropdown-icon {
+    transform: rotate(180deg);
+    color: var(--accent-color);
+}
+
+.dropdown-content {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border-top: 1px solid var(--border-color);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    
+    /* The Slide & Fade Animation */
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: dropdownReveal 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes dropdownReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

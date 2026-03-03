@@ -20,6 +20,9 @@ The blog also comes with a few shortcodes you can use to render info cards, audi
 - `[server]` - returns an in-line block for a server IP address or web domain to copy paste easily
 - `[youtube]` - put a youtube ID (eg `dQw4w9WgXcQ`) in between the tags to render a youtube embed
 - `[audio]` - put a link to a mp3 or wav or any other format the browser can play to render a nice audio player
+- `[ref]Test refrence | https://silvereen.dev[/ref]` - refrence a website, article, etc
+- `[dropdown=Drodown title]Dropdown content. Can be multi line.[/dropdown]` - creates a dropdown
+- `[quote=title]` - allows you to quote or citate a source
 
 ## Running
 Make sure you set your ENV VARs in .env:

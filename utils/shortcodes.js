@@ -94,6 +94,56 @@ const shortcodeRegistry = {
             <i class="bi bi-soundwave" style="color: var(--text-muted); font-size: 1.25rem; margin-right: 1rem;"></i>
         </div>
     `,
+    'ref': (content) => {
+        const parts = content.split('|').map(s => s.trim());
+        const title = parts[0] || 'Reference Link';
+        const url = parts[1] || '#';
+
+        const cleanUrl = url.replace(/^https?:\/\//, '');
+
+        return `
+        <a href="${url}" target="_blank" class="reference-block">
+            <div class="ref-icon">
+                <i class="bi bi-bookmark-fill"></i>
+            </div>
+            <div class="ref-content">
+                <div class="ref-title">${title}</div>
+                <div class="ref-url">${cleanUrl}</div>
+            </div>
+            <div class="ref-arrow">
+                <i class="bi bi-box-arrow-up-right"></i>
+            </div>
+        </a>
+        `;
+    },
+    'dropdown': (content, title) => {
+        const dropTitle = title || "Click to expand";
+
+        return `
+        <details class="custom-dropdown">
+            <summary class="dropdown-summary">
+                <span class="dropdown-title">${dropTitle}</span>
+                <i class="bi bi-chevron-down dropdown-icon"></i>
+            </summary>
+            <div class="dropdown-content">
+                ${content}
+            </div>
+        </details>
+        `;
+    },
+    'quote': (content, source) => {
+        const citationHtml = source
+            ? `<cite class="quote-source">&mdash; ${source}</cite>`
+            : '';
+
+        return `
+        <blockquote class="custom-quote">
+            <i class="bi bi-quote quote-icon"></i>
+            <div class="quote-content">${content}</div>
+            ${citationHtml}
+        </blockquote>
+        `;
+    },
 };
 
 // --- 2. The core parsing engine ---
@@ -102,20 +152,24 @@ function parsePostContent(htmlString) {
 
     let processedHtml = htmlString;
 
-    // This Regex powerfully matches: [tag]content[/tag]
-    // It also optionally matches <p> tags around it, destroying them so we don't inject <div> elements inside <p> elements (which is invalid HTML!)
-    const shortcodeRegex = /(?:<p>)?\s*\[(\w+)\]([\s\S]*?)\[\/\1\]\s*(?:<\/p>)?/g;
+    const shortcodeRegex = /(?:<p>)?\s*\[(\w+)(?:=([^\]]+))?\]([\s\S]*?)\[\/\1\]\s*(?:<\/p>)?/g;
 
-    processedHtml = processedHtml.replace(shortcodeRegex, (match, tag, innerContent) => {
-        // If the tag exists in our registry above, replace it!
+    processedHtml = processedHtml.replace(shortcodeRegex, (match, tag, arg, innerContent) => {
         if (shortcodeRegistry[tag]) {
-            return shortcodeRegistry[tag](innerContent.trim());
+
+            // THE FIX: Recursively parse the inside content BEFORE rendering the HTML template
+            const deeplyParsedContent = parsePostContent(innerContent);
+
+            return shortcodeRegistry[tag](deeplyParsedContent.trim(), arg ? arg.trim() : null);
         }
-        // If it's not a registered tag, leave it completely alone
         return match;
     });
 
     return processedHtml;
 }
+
+module.exports = { parsePostContent };
+
+module.exports = { parsePostContent };
 
 module.exports = { parsePostContent };
