@@ -17,19 +17,22 @@
 
     <!--SEO TAGS-->
     <meta name="title" content="Silvereen.dev | Blog">
-    <meta name="description" content="Heyo! I'm Silvereen, a full stack developer, project manager, entrepreneur, and composer. Welcome to my personal blog and portfolio.">
-    <meta name="theme-color" content="#39ff14"> 
+    <meta name="description"
+        content="Heyo! I'm Silvereen, a full stack developer, project manager, entrepreneur, and composer. Welcome to my personal blog and portfolio.">
+    <meta name="theme-color" content="#39ff14">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://silvereen.dev/">
     <meta property="og:title" content="Silvereen.dev | Blog">
-    <meta property="og:description" content="Heyo! I'm Silvereen, a full stack developer, project manager, entrepreneur, and composer. Welcome to my personal blog and portfolio.">
+    <meta property="og:description"
+        content="Heyo! I'm Silvereen, a full stack developer, project manager, entrepreneur, and composer. Welcome to my personal blog and portfolio.">
     <meta property="og:image" content="https://silvereen.dev/images/default-banner.png">
 
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://silvereen.dev/">
     <meta property="twitter:title" content="Silvereen.dev | Blog">
-    <meta property="twitter:description" content="Heyo! I'm Silvereen, a full stack developer, project manager, entrepreneur, and composer. Welcome to my personal blog and portfolio.">
+    <meta property="twitter:description"
+        content="Heyo! I'm Silvereen, a full stack developer, project manager, entrepreneur, and composer. Welcome to my personal blog and portfolio.">
     <meta property="twitter:image" content="https://silvereen.dev/images/default-banner.png">
 </head>
 
@@ -50,7 +53,7 @@
             <div class="post-grid">
                 <% posts.forEach((post, index)=> { %>
                     <article class="post-card" style="animation-delay: <%= 0.3 + (index * 0.1) %>s"
-                        onclick="window.location.href='/post/<%= post.url %>'">
+                        onclick="openPost('/post/<%= post.url %>')">
 
                         <% if (post.cover) { %>
                             <img class="post-cover" src="<%= post.cover %>" alt="Cover image for <%= post.title %>">
@@ -135,6 +138,16 @@
 </body>
 <script defer src="https://lime-clam.pikapod.net/script.js"
     data-website-id="fe14cb06-db4a-4392-8b05-d85eb6eb6117"></script>
+<script type="module">
+    import { WebHaptics, defaultPatterns } from "https://esm.sh/web-haptics";
+
+    const haptics = new WebHaptics();
+
+    window.openPost = function (post) {
+        haptics.trigger(defaultPatterns.success);
+        window.location.href = post;
+    };
+</script>
 
 </html>
 

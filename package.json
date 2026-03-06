@@ -16,6 +16,7 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",
     "pocketbase": "^0.26.8",
-    "sanitize-html": "^2.17.1"
+    "sanitize-html": "^2.17.1",
+    "web-haptics": "^0.0.6"
   }
 }

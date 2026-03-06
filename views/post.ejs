@@ -25,29 +25,30 @@
         </style>
         <% } %>
 
-    <!--SEO TAGS-->
-    <meta name="description" content="<%= post.excerpt || 'Read the latest post by Silvereen.' %>">
-    <meta name="theme-color" content="<%= post.color ? post.color : '#39ff14' %>">
+            <!--SEO TAGS-->
+            <meta name="description" content="<%= post.excerpt || 'Read the latest post by Silvereen.' %>">
+            <meta name="theme-color" content="<%= post.color ? post.color : '#39ff14' %>">
 
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://silvereen.dev/post/<%= post.url %>">
-    <meta property="og:title" content="<%= post.title %>">
-    <meta property="og:description" content="<%= post.excerpt || 'Read the latest post by Silvereen.' %>">
-    <% if (post.cover) { %>
-        <meta property="og:image" content="<%= post.cover %>">
-    <% } else { %>
-        <meta property="og:image" content="https://silvereen.dev/images/default-banner.png">
-    <% } %>
+            <meta property="og:type" content="article">
+            <meta property="og:url" content="https://silvereen.dev/post/<%= post.url %>">
+            <meta property="og:title" content="<%= post.title %>">
+            <meta property="og:description" content="<%= post.excerpt || 'Read the latest post by Silvereen.' %>">
+            <% if (post.cover) { %>
+                <meta property="og:image" content="<%= post.cover %>">
+                <% } else { %>
+                    <meta property="og:image" content="https://silvereen.dev/images/default-banner.png">
+                    <% } %>
 
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://silvereen.dev/post/<%= post.url %>">
-    <meta property="twitter:title" content="<%= post.title %>">
-    <meta property="twitter:description" content="<%= post.excerpt || 'Read the latest post by Silvereen.' %>">
-    <% if (post.cover) { %>
-        <meta property="twitter:image" content="<%= post.cover %>">
-    <% } else { %>
-        <meta property="twitter:image" content="https://silvereen.dev/images/6.png">
-    <% } %>
+                        <meta property="twitter:card" content="summary_large_image">
+                        <meta property="twitter:url" content="https://silvereen.dev/post/<%= post.url %>">
+                        <meta property="twitter:title" content="<%= post.title %>">
+                        <meta property="twitter:description"
+                            content="<%= post.excerpt || 'Read the latest post by Silvereen.' %>">
+                        <% if (post.cover) { %>
+                            <meta property="twitter:image" content="<%= post.cover %>">
+                            <% } else { %>
+                                <meta property="twitter:image" content="https://silvereen.dev/images/6.png">
+                                <% } %>
 </head>
 
 <body>
@@ -56,7 +57,7 @@
     <div class="page-container article-container">
 
         <nav class="post-nav">
-            <a href="/" class="back-link">&larr; Back to Home</a>
+            <a href="/" onclick="goHaptic()" class="back-link">&larr; Back to Home</a>
         </nav>
 
         <header class="post-header">
@@ -172,6 +173,8 @@
         }
 
         likeBtn.addEventListener('click', async () => {
+            goHaptic();
+
             isLiked = !isLiked; // Toggle state
 
             if (isLiked) {
@@ -203,6 +206,15 @@
     </script>
     <script defer src="https://lime-clam.pikapod.net/script.js"
         data-website-id="fe14cb06-db4a-4392-8b05-d85eb6eb6117"></script>
+    <script type="module">
+        import { WebHaptics, defaultPatterns } from "https://esm.sh/web-haptics";
+
+        const haptics = new WebHaptics();
+
+        window.goHaptic = function () {
+            haptics.trigger(defaultPatterns.success);
+        };
+    </script>
 </body>
 
 </html>
