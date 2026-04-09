@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 /* Base Reset & Variables */
 :root {
     --bg-color: #000000;
@@ -134,6 +135,7 @@ body {
     margin: 0 0 1rem 0;
     letter-spacing: -0.02em;
     color: #ffffff;
+    font-family: "IBM Plex Serif", serif;
 }
 
 .post-excerpt {
@@ -226,6 +228,7 @@ body {
     margin: 0 0 1rem 0;
     color: #ffffff;
     letter-spacing: -0.03em;
+    font-family: "IBM Plex Serif", serif;
 }
 
 .post-meta {
