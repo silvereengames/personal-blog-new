@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
   try {
     const posts = await pb.collection("posts").getFullList({
       filter: 'status = "published"',
-      sort: "-featured,-created",
+      sort: "-featured,-schedule,-created",
     });
 
     const formattedPosts = posts.map(post => ({
