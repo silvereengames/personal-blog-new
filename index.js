@@ -38,23 +38,38 @@ function createExcerpt(html, length = 120) {
 }
 
 app.get("/", async (req, res) => {
-  try {
-    const posts = await pb.collection("posts").getFullList({
-      filter: 'status = "published"',
-      sort: "-featured,-schedule,-created",
-    });
+    try {
+        // Fetch published posts without the restrictive DB sort
+        const posts = await pb.collection("posts").getFullList({
+            filter: 'status = "published"',
+        });
 
-    const formattedPosts = posts.map(post => ({
-      ...post,
-      excerpt: createExcerpt(post.content, 120)
-    }));
+        // Custom sorting logic
+        posts.sort((a, b) => {
+            // 1. Featured posts always jump to the top
+            if (a.featured && !b.featured) return -1;
+            if (!a.featured && b.featured) return 1;
 
-    res.render("index", { posts: formattedPosts });
+            // 2. Determine the true date to use for sorting 
+            // (Fallback to 'created' if 'schedule' is empty/null)
+            const dateA = new Date(a.schedule || a.created).getTime();
+            const dateB = new Date(b.schedule || b.created).getTime();
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error loading posts");
-  }
+            // 3. Sort chronologically (newest first / descending)
+            return dateB - dateA; 
+        });
+
+        const formattedPosts = posts.map(post => ({
+            ...post,
+            excerpt: createExcerpt(post.content, 120)
+        }));
+
+        res.render("index", { posts: formattedPosts });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading posts");
+    }
 });
 
 app.get("/post/:url", async (req, res) => {
