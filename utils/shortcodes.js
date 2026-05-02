@@ -144,6 +144,13 @@ const shortcodeRegistry = {
         </blockquote>
         `;
     },
+    'random': (content) => {
+        const items = content.split(',').map(item => item.trim());
+        const validItems = items.filter(item => item.length > 0);
+        if (validItems.length === 0) return '';
+        const randomIndex = Math.floor(Math.random() * validItems.length);
+        return validItems[randomIndex];
+    },
 };
 
 // --- 2. The core parsing engine ---
