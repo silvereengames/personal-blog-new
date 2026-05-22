@@ -123,7 +123,7 @@ app.post('/api/authenticate', (req, res) => {
     })
   } else {
     console.log("Client decliened")
-    res.code(404);
+    res.status(404);
   }
 })
 
