@@ -115,12 +115,15 @@ app.post('/login', async (req, res) => {
 app.post('/api/authenticate', (req, res) => {
   const token = req.body.token;
   const validToken = process.env.AUTH_CLIENT_TOKEN;
+  console.log("Client authentication triggered")
   if (token == validToken) {
+    console.log("client authenticated")
     res.status(200).json({
       "authenticated": true
     })
   } else {
-    res.send(404);
+    console.log("Client decliened")
+    res.code(404);
   }
 })
 
