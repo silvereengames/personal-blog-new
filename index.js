@@ -10,6 +10,7 @@ const { parsePostContent } = require('./utils/shortcodes');
 const port = process.env.PORT || 3000;
 
 const pb = new PocketBase(process.env.PB_URL);
+pb.autoCancellation(false);
 await pb.collection('users').authWithPassword(process.env.PB_USER, process.env.PB_PASS);
 
 app.set("view engine", "ejs");
