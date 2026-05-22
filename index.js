@@ -111,6 +111,18 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/api/authenticate', (req, res) => {
+  const token = req.body.token;
+  const validToken = process.env.AUTH_CLIENT_TOKEN;
+  if (token == validToken) {
+    res.status(200).json({
+      "authenticated": true
+    })
+  } else {
+    res.send(404);
+  }
+})
+
 // --- Like a post (with rate limiting) ---
 app.post("/api/posts/:url/like", likeLimiter, async (req, res) => {
   try {
