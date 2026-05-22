@@ -127,6 +127,22 @@ app.post('/api/authenticate', (req, res) => {
   }
 })
 
+app.post('/api/get-smtp', (req, res) => {
+  const token = req.body.token;
+  const validToken = process.env.AUTH_CLIENT_TOKEN;
+  console.log("Client send emails triggerd")
+  if (token == validToken) {
+    console.log("SMTP Password sent")
+    res.status(200).json({
+      "smtp-host": process.env.SMTP_HOST,
+      "password": process.env.SMTP_PASSWORD
+    })
+  } else {
+    console.log("Client decliened")
+    res.status(404);
+  }
+})
+
 // --- Like a post (with rate limiting) ---
 app.post("/api/posts/:url/like", likeLimiter, async (req, res) => {
   try {
