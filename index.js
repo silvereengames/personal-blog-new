@@ -8,10 +8,17 @@ const rateLimit = require('express-rate-limit');
 const { parsePostContent } = require('./utils/shortcodes');
 
 const port = process.env.PORT || 3000;
+var devMode = process.env.DEV_MODE || false;
 
 const pb = new PocketBase(process.env.PB_URL);
 pb.autoCancellation(false);
-await pb.collection('users').authWithPassword(process.env.PB_USER, process.env.PB_PASS);
+
+try {
+  await pb.collection('users').authWithPassword(process.env.PB_USER, process.env.PB_PASS);
+} catch {
+  devMode = true;
+}
+
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -40,38 +47,42 @@ function createExcerpt(html, length = 120) {
 }
 
 app.get("/", async (req, res) => {
+  if (devMode == "false") {
     try {
-        // Fetch published posts without the restrictive DB sort
-        const posts = await pb.collection("posts").getFullList({
-            filter: 'status = "published"',
-        });
+      // Fetch published posts without the restrictive DB sort
+      const posts = await pb.collection("posts").getFullList({
+        filter: 'status = "published"',
+      });
 
-        // Custom sorting logic
-        posts.sort((a, b) => {
-            // 1. Featured posts always jump to the top
-            if (a.featured && !b.featured) return -1;
-            if (!a.featured && b.featured) return 1;
+      // Custom sorting logic
+      posts.sort((a, b) => {
+        // 1. Featured posts always jump to the top
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
 
-            // 2. Determine the true date to use for sorting 
-            // (Fallback to 'created' if 'schedule' is empty/null)
-            const dateA = new Date(a.schedule || a.created).getTime();
-            const dateB = new Date(b.schedule || b.created).getTime();
+        // 2. Determine the true date to use for sorting 
+        // (Fallback to 'created' if 'schedule' is empty/null)
+        const dateA = new Date(a.schedule || a.created).getTime();
+        const dateB = new Date(b.schedule || b.created).getTime();
 
-            // 3. Sort chronologically (newest first / descending)
-            return dateB - dateA; 
-        });
+        // 3. Sort chronologically (newest first / descending)
+        return dateB - dateA;
+      });
 
-        const formattedPosts = posts.map(post => ({
-            ...post,
-            excerpt: createExcerpt(post.content, 120)
-        }));
+      const formattedPosts = posts.map(post => ({
+        ...post,
+        excerpt: createExcerpt(post.content, 120)
+      }));
 
-        res.render("index", { posts: formattedPosts });
+      res.render("index", { posts: formattedPosts });
 
     } catch (err) {
-        console.error(err);
-        res.status(500).send("Error loading posts");
+      console.error(err);
+      res.status(500).send("Error loading posts");
     }
+  } else {
+    res.render("error");
+  }
 });
 
 app.get("/post/:url", async (req, res) => {
@@ -261,7 +272,7 @@ setInterval(async () => {
 }, 60 * 1000);
 
 app.use((req, res) => {
-    res.redirect("/");
+  res.redirect("/");
 });
 
 app.listen(port, () => {
